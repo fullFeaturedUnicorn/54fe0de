@@ -8,27 +8,7 @@
 
 int min (int * n, int size) {
 	int i = 0;
-	int min = n[0];
-	while(i < size) {
-		if(n[i] < min) {
-			min = n[i];
-		}
-		i++;
-	}
-	return min;
-}
-
-int max(int * n, int size) {
-	int i = 0;
-	int max = n[0];
-	while(i < size) {
-		if(n[i] > max) {
-			max = n[i];
-		}
-		i++;
-	}
-	return max;
-}
+	int min = n
 
 matrix init(int size_x,
 			int size_y,
@@ -69,4 +49,11 @@ void update(matrix m,
 			int value)
 {
 	m.cell[offset(m, pos_x, pos_y)] = value;
+}
+
+xy project(xyz point,
+		   struct camera cam,
+		   int scaling)
+{
+	
 }

@@ -33,24 +33,18 @@ struct dot {
 };
 
 struct polygon {
+	int degree;
 	xyz * vertex;
 };
 
 struct camera {
 	xyz lens;
-	xyz * canvas;
+	xyz canvas[4];
 };
 
 /* --------- */
 /* Functions */
 /* --------- */
-
-int min(int * n, int size);
-int max(int * n, int size);
-
-/* Calculate size of hypotenuse in right-angled triangle, 
- * based on 2 catheti lengths */
-int hypotenuse(int ab, int ac);
 
 /* Create matrix with with equal to size_x
  * and height equal to size_y with 
