@@ -30,6 +30,10 @@ int max(int * n) {
 	return max;
 }
 
+int hypotenuse (int ab, int bc) {
+	return sqrt(pow(ab,2) + pow(bc,2));
+}
+
 matrix init(int size_x,
 			int size_y,
 			int value)

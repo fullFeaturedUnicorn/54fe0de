@@ -23,8 +23,12 @@ typedef struct matrix_ {
 /* Structures */
 /* ---------- */
 
+struct dot {
+	xy pos;
+	int color;
+};
+
 struct polygon {
-	int amount;
 	xyz * vertex;
 };
 
@@ -34,6 +38,7 @@ struct polygon {
 
 int min(int * n);
 int max(int * n);
+int hypotenuse(int ab, int ac);
 
 matrix init(int size_x,
 			int size_y,
