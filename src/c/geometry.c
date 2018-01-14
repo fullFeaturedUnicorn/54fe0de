@@ -1,6 +1,5 @@
 #include <stdlib.h>
-#include "../h/abstract.h"
-#include "../h/geometry.h"
+#include "../h/main.h"
 
 struct dot * line(xy start,
 				  xy finish,
@@ -16,12 +15,12 @@ struct dot * line(xy start,
 	eps_x = eps_y = 0;
 	modulo_x = modulo_y = 0;
 
-	int tmp_x[] = {start.x, finish.x};
-	int tmp_y[] = {start.y, finish.y};
-	delta_x = max(tmp_x) - min(tmp_x);
-	delta_y = max(tmp_y) - min(tmp_y);
-	int deltas[] = {delta_x, delta_y};
-	delta = max(deltas);
+	int tmp_x[2] = {start.x, finish.x};
+	int tmp_y[2] = {start.y, finish.y};
+	delta_x = max(tmp_x, 2) - min(tmp_x, 2);
+	delta_y = max(tmp_y, 2) - min(tmp_y, 2);
+	int deltas[2] = {delta_x, delta_y};
+	delta = max(deltas, 2);
 
 	if (delta_x == 0 && delta_y == 0) {
 		dot_ = malloc(5 * sizeof(int));
@@ -83,3 +82,27 @@ struct dot * line(xy start,
 	}
 	return dot_;
 }
+
+void draw_line(matrix m,
+			   xy start,
+			   xy finish,
+			   int color) {};
+
+void draw_polygon(matrix m,
+				  xy * verticles,
+				  int color,
+				  int solid) {};
+
+void render_line(matrix m,
+				 xyz start,
+				 xyz finish,
+				 struct camera cam,
+				 int scaling,
+				 int color) {};
+
+void render_polygon(matrix m,
+					xyz * verticles,
+					struct camera cam,
+					int scaling,
+					int color,
+					int solid) {}

@@ -1,15 +1,15 @@
 #include <math.h>
 #include <stdlib.h>
-#include "../h/abstract.h"
+#include "../h/main.h"
 
 #define PI = 3.14159265
 
 // Obligatory pair of dumb functions, because C99 is awesome;
 
-int min (int * n) {
-	int i = 1;
+int min (int * n, int size) {
+	int i = 0;
 	int min = n[0];
-	while(n[i]) {
+	while(i < size) {
 		if(n[i] < min) {
 			min = n[i];
 		}
@@ -18,10 +18,10 @@ int min (int * n) {
 	return min;
 }
 
-int max(int * n) {
-	int i = 1;
+int max(int * n, int size) {
+	int i = 0;
 	int max = n[0];
-	while(n[i]) {
+	while(i < size) {
 		if(n[i] > max) {
 			max = n[i];
 		}
@@ -48,6 +48,11 @@ matrix init(int size_x,
 	return m;
 }
 
+/* It is possible to get confused by coordinate system
+ * I use. The bottom left corner of the matrix is [0;0],
+ * and axis  generally follow common cartesian approach,
+ * not a "flipped over" one. Better to incapsulate
+ * getting actual position of imaginary "cell". */
 int offset(matrix m,
 		   int pos_x,
 		   int pos_y)
