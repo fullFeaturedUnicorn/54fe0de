@@ -27,9 +27,15 @@ typedef struct matrix_ {
 /* Structures */
 /* ---------- */
 
-struct dot {
-	xy pos;
+struct line {
 	int color;
+	int amount;
+	xy * dot;
+};
+
+struct shape {
+	int degree;
+	xy * vertex;
 };
 
 struct polygon {
@@ -42,9 +48,23 @@ struct camera {
 	xyz canvas[4];
 };
 
+struct intersection {
+	int exists;
+	int in_range;
+	xyz pos;
+};
+
+struct projection {
+	int exists;
+	xy pos;
+};
+
 /* --------- */
 /* Functions */
 /* --------- */
+
+int min (int * n, int size);
+int max (int * n, int size);
 
 /* Create matrix with with equal to size_x
  * and height equal to size_y with 
@@ -65,3 +85,29 @@ void update(matrix m,
 			int pos_x,
 			int pos_y,
 			int value);
+
+/* Return array of points for drawing straight line */
+struct line line(matrix m,
+				 xy start,
+				 xy finish,
+				 int color);
+
+/* Draw closest raster representation of straight line
+ * on given matrix */
+void draw_line(matrix m,
+			   xy start,
+			   xy finish,
+			   int color);
+
+/* Draw polygon vith veriable amount of vertex
+* (including triangle). Draw only perimeter if 
+* solid = 0, draw filled rectangle if solid = 1 */
+void draw_polygon(matrix m,
+				  struct shape s,
+				  int color,
+				  int solid);
+/* --- */
+/* I/O */
+/* --- */
+
+void write_pgm (char * filename, matrix m);
