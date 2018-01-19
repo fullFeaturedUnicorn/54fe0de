@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include "../h/main.h"
 
+void read_model (char * filename) {
+	FILE * file;
+	file = fopen(filename, "r");
+};
+
 void write_pgm (char * filename, matrix m) {
 	int i, j;
 	FILE * file;

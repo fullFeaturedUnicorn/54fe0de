@@ -101,11 +101,33 @@ void draw_line(matrix m,
 
 /* Draw polygon vith veriable amount of vertex
 * (including triangle). Draw only perimeter if 
-* solid = 0, draw filled rectangle if solid = 1 */
+* solid = 0, draw fill all points inside polygon 
+* with color if solid = 1 */
 void draw_polygon(matrix m,
 				  struct shape s,
 				  int color,
 				  int solid);
+				  
+struct projection project(
+	xyz point,
+	struct camera cam,
+	int scaling);
+	
+void render_line(
+	matrix m,
+	xyz start,
+	xyz finish,
+	struct camera cam,
+	int scaling,
+	int color);
+	
+void render_polygon(
+	matrix m,
+	struct polygon p,
+	struct camera cam,
+	int scaling,
+	int color,
+	int solid);
 /* --- */
 /* I/O */
 /* --- */

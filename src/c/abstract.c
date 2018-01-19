@@ -28,9 +28,12 @@ int max (int * n, int size) {
 	return max;
 }
 
-matrix init(int size_x,
-			int size_y,
-			int value)
+matrix init
+(
+	int size_x,
+	int size_y,
+	int value
+)
 {
 	matrix m;
 	m.size_x = size_x;
@@ -47,9 +50,12 @@ matrix init(int size_x,
  * and axis  generally follow common cartesian approach,
  * not a "flipped over" one. Better to incapsulate
  * getting actual position of imaginary "cell". */
-int offset(matrix m,
-		   int pos_x,
-		   int pos_y)
+int offset
+(
+	matrix m,
+	int pos_x,
+	int pos_y
+)
 {
 	int offset_x, offset_y, offset;
 	offset_x = m.size_x * abs(m.size_y - pos_y);
@@ -64,16 +70,22 @@ int offset(matrix m,
 	return offset;
 }
 
-void update(matrix m,
-			int pos_x,
-			int pos_y,
-			int value)
+void update
+(
+	matrix m,
+	int pos_x,
+	int pos_y,
+	int value
+)
 {
 	m.cell[offset(m, pos_x, pos_y)] = value;
 }
 
-float distance(xyz start,
-			   xyz finish)
+float distance
+(
+	xyz start,
+	xyz finish
+)
 {
 	int x, y, z;
 	x = finish.x - start.x;
@@ -108,21 +120,26 @@ xyz angles (xyz a, xyz b, xyz c) {
 	return angles_;
 }
 
-struct intersection intersect_triangle (xyz line_start,
-										xyz line_finish,
-										struct polygon t)
+struct intersection intersect_triangle
+(
+	xyz line_start,
+	xyz line_finish,
+	struct polygon t
+)
 {
 	if (t.degree == 3) {
 		xyz plane;
 		struct intersection res;
 		double d, angle, mu;
-		double eps = 0.03;
+		double eps = 0.003;
 
 		xyz * v;
 		int i = 0;
+		v = malloc(3 * 3 * sizeof(int));
 		for(;;) {
 			if (i == 3) { break; };
 			v[i] = t.vertex[i];
+			i++;
 		}
 		
 		plane.x =
@@ -158,15 +175,19 @@ struct intersection intersect_triangle (xyz line_start,
 				res.in_range = 1;
 			}
 		}
+		free(v);
 		return res;
 	} else {
 		exit(EXIT_FAILURE);
 	}
 }
 
-struct projection project(xyz point,
-						  struct camera cam,
-						  int scaling)
+struct projection project
+(
+	xyz point,
+	struct camera cam,
+	int scaling
+)
 {
 	/*                  D
 	y z            . .  |
@@ -174,16 +195,18 @@ struct projection project(xyz point,
 	-->x   -------------- // It supposed to be triangles
 	       |     ..    O  // but I am not very good at drawing
 	       A */
-
+	       
 	struct projection res;
 	struct polygon canvas;
 	float ao, bo, ab, cos_bao;
 	canvas.degree = 3; // Triangle is enough to define entire plane
-
+	canvas.vertex = malloc(3 * 3 * sizeof(int));
 	int i = 0;
+	
 	for (;;) {
 		if (i == 3) { break; }
 		canvas.vertex[i] = cam.canvas[i];
+		i++;
 	}
 
 	res.exists = 0;
@@ -201,5 +224,6 @@ struct projection project(xyz point,
 			res.pos.y = (int) (ao * scaling * cos_bao);
 		}
 	}
+	free(canvas.vertex);
 	return res;
 }
