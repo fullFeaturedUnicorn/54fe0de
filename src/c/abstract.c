@@ -179,7 +179,8 @@ struct intersection intersect_triangle
 		free(v);
 		return res;
 	} else {
-		printf("Asked for intersection between line and something that isn't a triangle.\n");
+		printf("Asked for intersection between line\n");
+		printf("and something that isn't a triangle.\n");
 		exit(EXIT_FAILURE);
 	}
 }

@@ -15,9 +15,6 @@ int main(int argc, char * argv[]) {
 	write_pgm("./tmp/out.pgm", m);
 	free(m.cell);
 	*/
-	int scaling;
-	struct camera cam;
-	
 	for (int i = 0; i < argc; i++) {
 		if (strcmp(argv[i], "-f") == 0) {
 			char * filename = argv[i + 1];

@@ -86,6 +86,10 @@ int offset
 	int pos_y
 );
 
+/* Determine normalized distance between two points in 
+ * 3-dimentional space */
+float distance (xyz start, xyz finish);
+
 /* Assign value to [pos_x, pos_y] cell in matrix */
 void update
 (
@@ -159,5 +163,10 @@ void render_polygon
 
 void read_model (char * filename);
 void write_pgm (char * filename, matrix m);
-
-struct polygon parse_polygon (char * string);
+void parse_polygon 
+(
+	int * degree, 
+	struct polygon p, 
+	char * string
+);
+void render(matrix m);

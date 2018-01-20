@@ -12,7 +12,20 @@ void read_model (char * filename) {
 	FILE * file;
     size_t len = 0;
     ssize_t read;
+    char * tmp;
 	file = fopen(filename, "r");
+	
+	/* CONFIGURATION */
+	matrix m;
+	int scaling_int;
+	struct camera cam;
+	int degree;
+	
+	/* HELPER VALUES */
+	int canvas_size_x;
+	int canvas_size_y;
+	
+	struct polygon p;
 	
 	if (file == NULL) {
 		printf("Requested file does not exist.\n");
@@ -21,52 +34,69 @@ void read_model (char * filename) {
 	
 	//read line by line
 	const size_t line_size = 300;
-	char * line = malloc(line_size);
+	char * line = malloc(line_size * sizeof(char));
+	p.vertex = malloc((line_size/3) * 3 * sizeof(int));
 	while (fgets(line, line_size, file) != NULL)  {
 		char * camera = "CAMERA";
 		if (strncmp(line, camera, strlen(camera)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
-				//printf(line);
+				parse_polygon(&degree, p, line);
+				cam.lens = p.vertex[0];
 			}
 		}
 		char * canvas = "CANVAS";
 		if (strncmp(line, canvas, strlen(canvas)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
-				//printf(line);
+				parse_polygon(&degree, p, line);
+				for(int i = 0; i < 4; i++) {
+					cam.canvas[i] = p.vertex[i];
+				}
 			}
 		}
 		char * scaling = "SCALING";
 		if (strncmp(line, scaling, strlen(scaling)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
-				//printf(line);
+				scaling_int = strtol(line, &tmp, 10);
 			}
 		}
+		// Now we have enough data to initialize matrix
 		char * model = "MODEL";
 		if (strncmp(line, model, strlen(model)) == 0) {
+			canvas_size_x = (int)distance
+				(cam.canvas[1], cam.canvas[2]);
+			canvas_size_y = (int)distance
+				(cam.canvas[0], cam.canvas[1]);
+			printf("%d %d\n", canvas_size_x, canvas_size_y);	
 			while (fgets(line, line_size, file) != NULL) {
-				struct polygon temp = parse_polygon(line);
-				printf("%d\n", temp.degree);
+				parse_polygon(&degree, p, line);
+				p.degree = degree;
 			}
 		}
 	}
 	
 	if (line) { free(line); }
+	free(p.vertex);
 	fclose(file);
 };
 
-struct polygon parse_polygon (char * string) {
-	int i, j;
+void parse_polygon 
+(
+	int * degree,
+	struct polygon p,
+	char * string
+) 
+{
+	int i;
 	char * piece;
 	char * number;
 	char * tmp;
-	struct polygon res;
-	res.degree = 1;
 	
 	i = 0;
+	*degree = 1;
 	for (;;) {
 		//printf("%c\n", string[i]);
 		if (string[i] == ']' && string[i+1] == '[')
-			{ res.degree++; }
+			{ *degree = *degree + 1; }
 		if (string[i] == ']' && string[i+1] == ']')
 			{ break; }
 		if (i == 300) {
@@ -79,34 +109,26 @@ struct polygon parse_polygon (char * string) {
 		i++;
 	}
 	
-	i = 1;
-	xyz * vertex = malloc(3 * res.degree * sizeof(int));
-	piece = strtok(string, "][");
-	
-	number = strtok(piece, ",");
-	vertex[0].x = strtol(number, &tmp, 10);
-	number = strtok(NULL, ",");
-	vertex[0].y = strtol(number, &tmp, 10);
-	number = strtok(NULL, ",");
-	vertex[0].z = strtol(number, &tmp, 10);
-	
-	while(i < res.degree) {
-		piece = strtok(NULL, "][");
-		if (piece) {
-			number = strtok(piece, ",");
-			vertex[i].x = strtol(number, &tmp, 10);
-			number = strtok(NULL, ",");
-			vertex[i].y = strtol(number, &tmp, 10);
-			number = strtok(NULL, ",");
-			vertex[i].z = strtol(number, &tmp, 10);
+	i = 0;
+	while (piece = strsep(&string, "][")) {
+		if (strlen(piece) > 1) {
+			number = strsep(&piece, ",");
+			p.vertex[i].x = strtol(number, &tmp, 10);
+			number = strsep(&piece, ",");
+			p.vertex[i].y = strtol(number, &tmp, 10);
+			number = strsep(&piece, ",");
+			p.vertex[i].z = strtol(number, &tmp, 10);
+			i++;
 		}
-		i++;
 	}
-	
-	res.vertex = vertex;
-	free(vertex);
-	return res;
 };
+
+void render 
+(
+	matrix m
+)
+{
+}
 
 void write_pgm (char * filename, matrix m) {
 	int i, j;
