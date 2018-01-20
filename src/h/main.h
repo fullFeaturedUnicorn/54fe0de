@@ -69,67 +69,95 @@ int max (int * n, int size);
 /* Create matrix with with equal to size_x
  * and height equal to size_y with 
  * value assigned to every cell */
-matrix init(int size_x,
-			int size_y,
-			int value);
+matrix init
+(
+	int size_x,
+	int size_y,
+	int value
+);
 
 /* While matrix stored in memory as 1-dimentional array, 
  * get offset of cell, correspronding to its 
  * cartesian [x,y] position */
-int offset(matrix m,
-		   int pos_x,
-		   int pos_y);
+int offset
+(
+	matrix m,
+	int pos_x,
+	int pos_y
+);
 
 /* Assign value to [pos_x, pos_y] cell in matrix */
-void update(matrix m,
-			int pos_x,
-			int pos_y,
-			int value);
+void update
+(
+	matrix m,
+	int pos_x,
+	int pos_y,
+	int value
+);
 
 /* Return array of points for drawing straight line */
-struct line line(matrix m,
-				 xy start,
-				 xy finish,
-				 int color);
+struct line line
+(
+	matrix m,
+	xy start,
+	xy finish,
+	int color
+);
 
 /* Draw closest raster representation of straight line
  * on given matrix */
-void draw_line(matrix m,
-			   xy start,
-			   xy finish,
-			   int color);
+void draw_line
+(
+	matrix m,
+	xy start,
+	xy finish,
+	int color
+);
 
 /* Draw polygon vith veriable amount of vertex
 * (including triangle). Draw only perimeter if 
 * solid = 0, draw fill all points inside polygon 
 * with color if solid = 1 */
-void draw_polygon(matrix m,
-				  struct shape s,
-				  int color,
-				  int solid);
+void draw_polygon
+(
+	matrix m,
+	struct shape s,
+	int color,
+	int solid
+);
 				  
-struct projection project(
+struct projection project
+(
 	xyz point,
 	struct camera cam,
-	int scaling);
+	int scaling
+);
 	
-void render_line(
+void render_line
+(
 	matrix m,
 	xyz start,
 	xyz finish,
 	struct camera cam,
 	int scaling,
-	int color);
+	int color
+);
 	
-void render_polygon(
+void render_polygon
+(
 	matrix m,
 	struct polygon p,
 	struct camera cam,
 	int scaling,
 	int color,
-	int solid);
+	int solid
+);
+
 /* --- */
 /* I/O */
 /* --- */
 
+void read_model (char * filename);
 void write_pgm (char * filename, matrix m);
+
+struct polygon parse_polygon (char * string);

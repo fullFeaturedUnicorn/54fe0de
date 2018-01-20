@@ -15,14 +15,17 @@ int main(int argc, char * argv[]) {
 	write_pgm("./tmp/out.pgm", m);
 	free(m.cell);
 	*/
+	int scaling;
+	struct camera cam;
+	
 	for (int i = 0; i < argc; i++) {
 		if (strcmp(argv[i], "-f") == 0) {
 			char * filename = argv[i + 1];
-			printf("%s", filename);
+			read_model(filename);
 		}
 		if (strcmp(argv[i], "-o") == 0) {
 			char * output = argv[i + 1];
-			printf("%s", output);
+			//printf("%s", output);
 		}
 	}
 	return 0;

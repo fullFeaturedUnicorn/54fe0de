@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "../h/main.h"
 
@@ -178,6 +179,7 @@ struct intersection intersect_triangle
 		free(v);
 		return res;
 	} else {
+		printf("Asked for intersection between line and something that isn't a triangle.\n");
 		exit(EXIT_FAILURE);
 	}
 }
