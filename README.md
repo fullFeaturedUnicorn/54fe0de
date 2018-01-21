@@ -70,13 +70,13 @@ MODEL
 
 **SCALING** -- surely, it is possible to manually set canvas size to a size of display it will be viewed on. But we all have different display resolutions, and there's more to come with 4K/8K/whatever, so it's dumb to tie anything to a fixed canvas size. Moreover, it's easier to operate with smaller numbers when it comes to coordinates of something in 3D space. The solution is to render everything on a small canvas with size, like, 150x100, and then scale result to appropriate size afterwards. 
 
-The problem is, rendering accuracy will not be invreased with such dumb image upscaling. That's why I calculate position of some point projected to a smaller canvas as a floating point number, then multiply canvas size, as well as 2D coordinates of projection to a scaling factor, and then pick closest integer representation of said 2D coordinate. This way accuracy will be increased with scaling factor growth almost infinitely. Very cool.
+The problem is, rendering accuracy will not be increased after just dumb image upscaling. That's why I calculate position of some point projected to a smaller canvas as a floating point number, then multiply canvas size, as well as 2D coordinates of projection to a scaling factor, and then pick closest integer representation of said 2D coordinate. This way accuracy will be increased with scaling factor growth almost infinitely. Very cool.
 
 ### Thought process
 
 It took reasonable amount of headache to come up with this. For historic purposes, I saved whatever was helpful to my brain. 
 
-[Link](/assets/kdscmlacmlsd.png).
+[Link](/assets/kdscmlacmlsd.png)
 
 ### Known wtf's
 
