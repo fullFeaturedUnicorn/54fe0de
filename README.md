@@ -1,5 +1,9 @@
 Very basic 3D renderer written in C99 for educational purposes.
 
+![](/visualization.png)
+
+This picture existed in 3D space and was rendered using presented engine. You can grab appropriate model [here](/models/visualization.pepe).
+
 ### Dependencies
 
 Any POSIX-compatible system, glibc.
