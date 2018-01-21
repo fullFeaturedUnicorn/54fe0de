@@ -88,6 +88,8 @@ It took reasonable amount of headache to come up with this. For historic purpose
 
 Tried to follow [Linux kernel's internal guidelines](https://www.kernel.org/doc/html/v4.10/process/coding-style.html) as much as I can. But failed, obviously.
 
+For more comments about what each function does see header file.
+
 ### License
 
 GPLv3+
