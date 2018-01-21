@@ -191,7 +191,10 @@ void render_point(
 	int color)
 {
 	struct projection res = project(point, cam, scaling);
-	update(m, res.pos.x, res.pos.y, color);
+	printf("%d: %d %d\n", res.exists, res.pos.x, res.pos.y);
+	if (res.exists == 1) {
+		update(m, res.pos.x, res.pos.y, color);
+	}
 }
 
 void render_line

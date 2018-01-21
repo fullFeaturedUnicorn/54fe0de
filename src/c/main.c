@@ -1,29 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "../h/main.h"
+#include "../h/io.h"
+
+static char * model;
+static char * output;
+static char * usage = "main -f /path/to/model -o output.pgm";
 
 int main(int argc, char * argv[]) {
-	/*
-	int scaling = 1;
-	matrix m = init(150,100,15);
-	struct camera cam;
-	cam.canvas[0] = (xyz) {0,0,0};
-	cam.canvas[1] = (xyz) {0,100,0};
-	cam.canvas[2] = (xyz) {0,100,150};
-	cam.canvas[3] = (xyz) {0,150,100};
-	cam.lens = (xyz) {100,50,75};
-	
-	write_pgm("./tmp/out.pgm", m);
-	free(m.cell);
-	*/
 	for (int i = 0; i < argc; i++) {
 		if (strcmp(argv[i], "-f") == 0) {
-			char * filename = argv[i + 1];
-			read_model(filename);
+			model = argv[i + 1];
 		}
 		if (strcmp(argv[i], "-o") == 0) {
-			char * output = argv[i + 1];
-			//printf("%s", output);
+			output = argv[i + 1];
 		}
 	}
-	return 0;
+	if (model && output) {
+		render(model, output);
+		return 0;
+	} else {
+		printf("%s", usage);
+		exit(EXIT_FAILURE);
+	}
 }

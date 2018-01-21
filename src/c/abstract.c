@@ -220,7 +220,9 @@ struct projection project
 		ao = distance(cam.canvas[0], p.pos);
 		bo = distance(cam.canvas[1], p.pos);
 		ab = distance(cam.canvas[0], cam.canvas[1]);
-		cos_bao = (pow(ab,2) + pow(ao,2) + pow(bo,2)) / (2 * ao * ab);
+		cos_bao = 
+			(powf(ab,2) + powf(ao,2) - powf(bo,2)) / 
+			(2 * ao * ab);
 		if (cos_bao > 0 && cos_bao < 1) {
 			res.exists = 1;
 			res.pos.x = (int) (ao * scaling * sin(acos(cos_bao)));

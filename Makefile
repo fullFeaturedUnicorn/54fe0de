@@ -12,6 +12,6 @@ run :
 	bin/main
 clean :
 	rm bin/* tmp/*
-test :
+tests :
 	cc $(CFLAGS) $(SRC) $(TESTS) -o bin/run_tests
 	bin/run_tests	

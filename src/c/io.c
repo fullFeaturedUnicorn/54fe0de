@@ -2,18 +2,19 @@
 #include <string.h>
 #include <stdlib.h>	
 #include "../h/main.h"
+#include "../h/io.h"
 
 /* Everything that happens here is specific 
  * to POSIX-compatible system. If your system is not
  * POSIX-compatible, it is not gonna work, you 
  * have been warned. */
 
-void read_model (char * filename) {
+void render (char * model, char * output) {
 	FILE * file;
     size_t len = 0;
     ssize_t read;
     char * tmp;
-	file = fopen(filename, "r");
+	file = fopen(model, "r");
 	
 	/* CONFIGURATION */
 	matrix m;
@@ -24,6 +25,10 @@ void read_model (char * filename) {
 	/* HELPER VALUES */
 	int canvas_size_x;
 	int canvas_size_y;
+	int bg; // background
+	int default_col; // default color, if 
+	//not specified explicitly
+	int draw_edges;
 	
 	struct polygon p;
 	
@@ -53,6 +58,24 @@ void read_model (char * filename) {
 				}
 			}
 		}
+		char * background = "BACKGROUND";
+		if (strncmp(line, background, strlen(background)) == 0) {
+			if (fgets(line, line_size, file) != NULL) {
+				bg = strtol(line, &tmp, 10);
+			}
+		}
+		char * color = "COLOR";
+		if (strncmp(line, color, strlen(color)) == 0) {
+			if (fgets(line, line_size, file) != NULL) {
+				default_col = strtol(line, &tmp, 10);
+			}
+		}
+		char * edges = "EDGES";
+		if (strncmp(line, edges, strlen(edges)) == 0) {
+			if (fgets(line, line_size, file) != NULL) {
+				draw_edges = strtol(line, &tmp, 10);
+			}
+		}
 		char * scaling = "SCALING";
 		if (strncmp(line, scaling, strlen(scaling)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
@@ -66,17 +89,26 @@ void read_model (char * filename) {
 				(cam.canvas[1], cam.canvas[2]);
 			canvas_size_y = (int)distance
 				(cam.canvas[0], cam.canvas[1]);
-			printf("%d %d\n", canvas_size_x, canvas_size_y);	
+			m = init(canvas_size_x, canvas_size_y, bg);
 			while (fgets(line, line_size, file) != NULL) {
 				parse_polygon(&degree, p, line);
 				p.degree = degree;
+				draw
+				(
+					m, p, cam, 
+					draw_edges,
+					scaling_int, 
+					default_col
+				);
 			}
 		}
 	}
-	
 	if (line) { free(line); }
 	free(p.vertex);
 	fclose(file);
+	
+	write_pgm(output, m);
+	free(m.cell);
 };
 
 void parse_polygon 
@@ -94,7 +126,6 @@ void parse_polygon
 	i = 0;
 	*degree = 1;
 	for (;;) {
-		//printf("%c\n", string[i]);
 		if (string[i] == ']' && string[i+1] == '[')
 			{ *degree = *degree + 1; }
 		if (string[i] == ']' && string[i+1] == ']')
@@ -123,11 +154,34 @@ void parse_polygon
 	}
 };
 
-void render 
+void draw
 (
-	matrix m
+	matrix m,
+	struct polygon p,
+	struct camera cam,
+	int edges,
+	int scaling,
+	int color
 )
 {
+	switch (p.degree) {
+	case 1:
+		render_point 
+		(
+			m, 
+			p.vertex[0], 
+			cam, scaling, color
+		);
+		break;
+	case 2:
+		render_line
+		(
+			m, 
+			p.vertex[0], p.vertex[1], 
+			cam, scaling, color
+		);
+		break;
+	}
 }
 
 void write_pgm (char * filename, matrix m) {

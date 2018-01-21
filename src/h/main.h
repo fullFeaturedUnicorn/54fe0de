@@ -136,7 +136,16 @@ struct projection project
 	struct camera cam,
 	int scaling
 );
-	
+
+void render_point
+(
+	matrix m,
+	xyz point,
+	struct camera cam,
+	int scaling,
+	int color
+);
+
 void render_line
 (
 	matrix m,
@@ -156,17 +165,3 @@ void render_polygon
 	int color,
 	int solid
 );
-
-/* --- */
-/* I/O */
-/* --- */
-
-void read_model (char * filename);
-void write_pgm (char * filename, matrix m);
-void parse_polygon 
-(
-	int * degree, 
-	struct polygon p, 
-	char * string
-);
-void render(matrix m);
