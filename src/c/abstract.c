@@ -8,8 +8,8 @@
 int min (int * n, int size) {
 	int i = 0;
 	int min = n[0];
-	while(i < size) {
-		if(n[i] < min) {
+	while (i < size) {
+		if (n[i] < min) {
 			min = n[i];
 		}
 		i++;
@@ -20,13 +20,23 @@ int min (int * n, int size) {
 int max (int * n, int size) {
 	int i = 0;
 	int max = n[0];
-	while(i < size) {
-		if(n[i] > max) {
+	while (i < size) {
+		if (n[i] > max) {
 			max = n[i];
 		}
 		i++;
 	}
 	return max;
+}
+
+float avg (float * n, int size) {
+	int i = 0;
+	float avg = 0;
+	while (i < size) {
+		avg += n[i];
+	}
+	avg = avg / size;
+	return avg;
 }
 
 matrix init

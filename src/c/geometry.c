@@ -16,7 +16,12 @@ struct line line
 	res.color = color;
 	delta_x = abs(finish.x - start.x);
 	delta_y = abs(finish.y - start.y);
-	res.dot = malloc(2 * (delta_x + delta_y) * sizeof(int));
+
+	res.dot = malloc
+	(
+		(2 * (delta_x + delta_y) * sizeof(int)) + 
+		(2 * sizeof(int))
+	);
 
 	// Make sure target will not ever exceed actual canvas size
 	x = start.x >= m.size_x ? m.size_x : start.x;
@@ -65,7 +70,7 @@ struct line line
 			eps_y -= 1;
 			mod_y -= delta_x;
 		}
-
+		
 		counter++;
 		res.dot[counter].x = x;
 		res.dot[counter].y = y;
@@ -87,6 +92,7 @@ void draw_line
 )
 {
 	int i = 0;
+	struct line l;
 	xy a = start;
 	xy b = finish;
 	
@@ -97,12 +103,12 @@ void draw_line
 		b.y = start.y;
 	}
 	
-	struct line l =
-		line(m, a, b, color);
+	l = line(m, a, b, color);
 	while (i <= l.amount) {
 		update(m, l.dot[i].x, l.dot[i].y, color);
 		i++;
 	}
+	
 	free(l.dot);
 }
 
@@ -209,7 +215,7 @@ void render_line
 	struct projection res_a = project(start, cam, scaling);
 	struct projection res_b = project(finish, cam, scaling);
 	if (res_a.exists == 1 && res_b.exists == 1) {
-		draw_line(m, res_a.pos, res_b.pos, color);	
+		draw_line(m, res_a.pos, res_b.pos, color);
 	}
 };
 

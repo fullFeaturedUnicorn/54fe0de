@@ -65,6 +65,7 @@ struct projection {
 
 int min (int * n, int size);
 int max (int * n, int size);
+float avg (float * n, int size);
 
 /* Create matrix with with equal to size_x
  * and height equal to size_y with 
