@@ -16,9 +16,9 @@ void render
 )
 {
 	FILE * file;
-    size_t len = 0;
-    ssize_t read;
-    char * tmp;
+	size_t len = 0;
+	ssize_t read;
+	char * tmp;
 	file = fopen(model, "r");
 	
 	/* CONFIGURATION */

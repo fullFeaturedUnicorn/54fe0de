@@ -126,15 +126,20 @@ void draw_polygon
 	switch (solid) {
 	case 0:
 		i = 0;
-		draw_line(m,
-				  s.vertex[0],
-				  s.vertex[s.degree - 1],
-				  color);
+		draw_line
+		(
+			m,s.vertex[0],
+			s.vertex[s.degree - 1],
+			color
+		);
 		while (i < s.degree - 1) {
-			draw_line(m,
-					  s.vertex[i],
-					  s.vertex[i+1],
-					  color);
+			draw_line
+			(
+				m,
+				s.vertex[i],
+				s.vertex[i+1],
+				color
+			);
 			i++;
 		}
 		break;
