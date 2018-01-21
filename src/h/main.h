@@ -129,7 +129,21 @@ void draw_polygon
 	int color,
 	int solid
 );
-				  
+
+/* Determine whether the line segment intersects 3-vertex
+ * plane defined by passed triangle and if so, return coordinates
+ * of intersection */
+struct intersection intersect
+(
+	xyz line_start,
+	xyz line_finish,
+	struct polygon t
+);
+
+/* Determine position [x,y] of point projection on canvas
+ * based on canvas size, camera properties
+ * and original point position in
+ * 3-dimentional space */
 struct projection project
 (
 	xyz point,
@@ -137,6 +151,8 @@ struct projection project
 	int scaling
 );
 
+/* Helper functions (call it "facade" maybe? lol) providing
+ * unified and obvious way to render 3D shapes on a canvas surface. */
 void render_point
 (
 	matrix m,

@@ -9,7 +9,12 @@
  * POSIX-compatible, it is not gonna work, you 
  * have been warned. */
 
-void render (char * model, char * output) {
+void render 
+(
+	char * model, 
+	char * output
+)
+{
 	FILE * file;
     size_t len = 0;
     ssize_t read;
@@ -18,9 +23,9 @@ void render (char * model, char * output) {
 	
 	/* CONFIGURATION */
 	matrix m;
+	int degree;
 	int scaling_int;
 	struct camera cam;
-	int degree;
 	
 	/* HELPER VALUES */
 	int canvas_size_x;
@@ -37,7 +42,6 @@ void render (char * model, char * output) {
 		exit(EXIT_FAILURE);
 	};
 	
-	//read line by line
 	const size_t line_size = 300;
 	char * line = malloc(line_size * sizeof(char));
 	p.vertex = malloc((line_size/3) * 3 * sizeof(int));
@@ -85,11 +89,14 @@ void render (char * model, char * output) {
 		// Now we have enough data to initialize matrix
 		char * model = "MODEL";
 		if (strncmp(line, model, strlen(model)) == 0) {
-			canvas_size_x = (int)distance
-				(cam.canvas[1], cam.canvas[2]);
-			canvas_size_y = (int)distance
-				(cam.canvas[0], cam.canvas[1]);
-			m = init(canvas_size_x, canvas_size_y, bg);
+			canvas_size_x = (int)distance(cam.canvas[1], cam.canvas[2]);
+			canvas_size_y = (int)distance(cam.canvas[0], cam.canvas[1]);
+			m = init
+			(
+				canvas_size_x * scaling_int, 
+				canvas_size_y * scaling_int, 
+				bg
+			);
 			while (fgets(line, line_size, file) != NULL) {
 				parse_polygon(&degree, p, line);
 				p.degree = degree;
@@ -103,6 +110,7 @@ void render (char * model, char * output) {
 			}
 		}
 	}
+	
 	if (line) { free(line); }
 	free(p.vertex);
 	fclose(file);
@@ -181,6 +189,15 @@ void draw
 			cam, scaling, color
 		);
 		break;
+	default:
+		if (edges == 0) {
+			render_polygon(m, p, cam, scaling, color, 1);
+		} else if (edges == 1) {
+			render_polygon(m, p, cam, scaling, color, 1);
+			render_polygon(m, p, cam, scaling, 0, 0);
+		} else {
+			render_polygon(m, p, cam, scaling, 0, 0);
+		}
 	}
 }
 

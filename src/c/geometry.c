@@ -191,7 +191,6 @@ void render_point(
 	int color)
 {
 	struct projection res = project(point, cam, scaling);
-	printf("%d: %d %d\n", res.exists, res.pos.x, res.pos.y);
 	if (res.exists == 1) {
 		update(m, res.pos.x, res.pos.y, color);
 	}
@@ -239,7 +238,7 @@ void render_polygon
 		}
 		i++;
 	}
-	if (ex == p.degree - 1) {
+	if (ex == p.degree) {
 		draw_polygon(m, s, color, solid);
 	}
 	free(s.vertex);

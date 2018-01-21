@@ -121,7 +121,7 @@ xyz angles (xyz a, xyz b, xyz c) {
 	return angles_;
 }
 
-struct intersection intersect_triangle
+struct intersection intersect
 (
 	xyz line_start,
 	xyz line_finish,
@@ -144,18 +144,15 @@ struct intersection intersect_triangle
 		}
 		
 		plane.x =
-			(v[2].y - v[1].y) * (v[3].z - v[1].z) -
-			(v[2].z - v[1].z) * (v[3].y - v[1].y);
+			(v[1].y - v[0].y) * (v[2].z - v[0].z) -
+			(v[1].z - v[0].z) * (v[2].y - v[0].y);
 		plane.y =
-			(v[2].z - v[1].z) * (v[3].x - v[1].x) -
-			(v[2].x - v[1].x) * (v[3].z - v[1].z);
+			(v[1].z - v[0].z) * (v[2].x - v[0].x) -
+			(v[1].x - v[0].x) * (v[2].z - v[0].z);
 		plane.z =
-			(v[2].x - v[1].x) * (v[3].y - v[1].y) -
-			(v[2].y - v[1].y) * (v[3].z - v[1].x);
-		d = (plane.x * v[1].x) -
-			(plane.y * v[1].y) -
-			(plane.z * v[1].z);
-		d = -d;
+			(v[1].x - v[0].x) * (v[2].y - v[0].y) -
+			(v[1].y - v[0].y) * (v[2].x - v[0].x);
+		d = - (plane.x * v[1].x) - (plane.y * v[1].y) - (plane.z * v[1].z);
 		angle =
 			plane.x * (line_finish.x - line_start.x) +
 			plane.y * (line_finish.y - line_start.y) +
@@ -164,11 +161,10 @@ struct intersection intersect_triangle
 		res.pos = (xyz) {-1,-1,-1};
 		if (fabs(angle) > eps) {
 			res.exists = 1;
-			mu = (d +
-				  (plane.x * line_start.x) +
+			mu = - (d + (plane.x * line_start.x) +
 				  (plane.y * line_start.y) +
-				  (plane.z * line_start.z)) / angle;
-			mu = -mu;
+				  (plane.z * line_start.z)) 
+				  / angle;
 			res.pos.x = line_start.x + mu * (line_finish.x - line_start.x);
 			res.pos.y = line_start.y + mu * (line_finish.y - line_start.y);
 			res.pos.z = line_start.z + mu * (line_finish.z - line_start.z);
@@ -215,7 +211,7 @@ struct projection project
 	res.exists = 0;
 	res.pos = (xy) {-1,-1};
 	struct intersection p =
-		intersect_triangle(point, cam.lens, canvas);
+		intersect(point, cam.lens, canvas);
 	if (p.exists == 1) {
 		ao = distance(cam.canvas[0], p.pos);
 		bo = distance(cam.canvas[1], p.pos);
