@@ -66,4 +66,4 @@ MODEL
 
 ### License
 
-WTFPL
+GPLv3+
