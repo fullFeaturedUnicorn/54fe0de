@@ -35,6 +35,16 @@ void render
 	//not specified explicitly
 	int draw_edges;
 	
+	/* Strings for comparison */
+	char * comment = "//";
+	char * color = "COLOR";
+	char * edges = "EDGES";
+	char * camera = "CAMERA";
+	char * canvas = "CANVAS";
+	char * scaling = "SCALING";
+	char * model_str = "MODEL";
+	char * background = "BACKGROUND";
+	
 	struct polygon p;
 	
 	if (file == NULL) {
@@ -46,14 +56,12 @@ void render
 	char * line = malloc(line_size * sizeof(char));
 	p.vertex = malloc((line_size/3) * 3 * sizeof(int));
 	while (fgets(line, line_size, file) != NULL)  {
-		char * camera = "CAMERA";
 		if (strncmp(line, camera, strlen(camera)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
 				parse_polygon(&degree, p, line);
 				cam.lens = p.vertex[0];
 			}
 		}
-		char * canvas = "CANVAS";
 		if (strncmp(line, canvas, strlen(canvas)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
 				parse_polygon(&degree, p, line);
@@ -62,33 +70,28 @@ void render
 				}
 			}
 		}
-		char * background = "BACKGROUND";
 		if (strncmp(line, background, strlen(background)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
 				bg = strtol(line, &tmp, 10);
 			}
 		}
-		char * color = "COLOR";
 		if (strncmp(line, color, strlen(color)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
 				default_col = strtol(line, &tmp, 10);
 			}
 		}
-		char * edges = "EDGES";
 		if (strncmp(line, edges, strlen(edges)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
 				draw_edges = strtol(line, &tmp, 10);
 			}
 		}
-		char * scaling = "SCALING";
 		if (strncmp(line, scaling, strlen(scaling)) == 0) {
 			if (fgets(line, line_size, file) != NULL) {
 				scaling_int = strtol(line, &tmp, 10);
 			}
 		}
 		// Now we have enough data to initialize matrix
-		char * model = "MODEL";
-		if (strncmp(line, model, strlen(model)) == 0) {
+		if (strncmp(line, model_str, strlen(model_str)) == 0) {
 			canvas_size_x = (int)distance(cam.canvas[1], cam.canvas[2]);
 			canvas_size_y = (int)distance(cam.canvas[0], cam.canvas[1]);
 			m = init
@@ -98,15 +101,19 @@ void render
 				bg
 			);
 			while (fgets(line, line_size, file) != NULL) {
-				parse_polygon(&degree, p, line);
-				p.degree = degree;
-				draw
-				(
-					m, p, cam, 
-					draw_edges,
-					scaling_int, 
-					default_col
-				);
+				if (strncmp(line, comment, strlen(comment)) == 0) {
+					// do nothing
+				} else {
+					parse_polygon(&degree, p, line);
+					p.degree = degree;
+					draw
+					(
+						m, p, cam, 
+						draw_edges,
+						scaling_int, 
+						default_col
+					);
+				}
 			}
 		}
 	}
