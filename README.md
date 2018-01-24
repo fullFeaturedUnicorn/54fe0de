@@ -51,11 +51,11 @@ EDGES
 SCALING
 5
 MODEL
-[[200,50,75]]
-[[200,30,20][300,90,50]]
+[[200,50,75]] // this will be a single point
+[[200,30,20][300,90,50]] // this will be a line
 // this is comment
-[[200,60,75][300,85,90][400,92,50]]
-…
+[[200,60,75][300,85,90][400,92,50]] // this will be triangle
+… // and so on
 ```
 
 Quick explanation what each field means. Every coordinate is presented in format [x,y,z] for normalized 3-dimentional cartesian space.
