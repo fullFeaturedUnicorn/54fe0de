@@ -58,17 +58,19 @@ MODEL
 …
 ```
 
-**CAMERA** -- Position of camera "lens".
+Quick explanation what each field means. Every coordinate is presented in format [x,y,z] for normalized 3-dimentional cartesian space.
 
-**CANVAS** -- 4-vertex polygon (rectangle), basically a "screen" for projection.
+**CAMERA** — Position of camera "lens".
 
-**BACKGROUND** -- default background for output image. Pretty straighforward.
+**CANVAS** — 4-vertex polygon (rectangle), basically a "screen" for projection.
 
-**COLOR** -- default color to fill rendered polygons with. It can be either specified manually via polygon declaration, or calculated automatically based on light source position, but in case of lack of information from both possible sources, this value vill be picked up.
+**BACKGROUND** — default background for output image. Pretty straighforward.
 
-**EDGES** -- specify how to render "skeleton" of the model, basically to draw edges of said polygons, or not. 0 -- do not draw any edges, 1 -- draw edges and fill polygons with their corresponding color, 2 -- draw only edges, ignore "body". Edges are always have color 0 (black).
+**COLOR** — default color to fill rendered polygons with. It can be either specified manually via polygon declaration, or calculated automatically based on light source position, but in case of lack of information from both possible sources, this value vill be picked up.
 
-**SCALING** -- surely, it is possible to manually set canvas size to a size of display it will be viewed on. But we all have different display resolutions, and there's more to come with 4K/8K/whatever, so it's dumb to tie anything to a fixed canvas size. Moreover, it's easier to operate with smaller numbers when it comes to coordinates of something in 3D space. The solution is to render everything on a small canvas with size, like, 150x100, and then scale result to appropriate size afterwards. 
+**EDGES** — specify how to render "skeleton" of the model, basically to draw edges of said polygons, or not. 0 — do not draw any edges, 1 — draw edges and fill polygons with their corresponding color, 2 — draw only edges, ignore "body". Edges are always have color 0 (black).
+
+**SCALING** — surely, it is possible to manually set canvas size to a size of display it will be viewed on. But we all have different display resolutions, and there's more to come with 4K/8K/whatever, so it's dumb to tie anything to a fixed canvas size. Moreover, it's easier to operate with smaller numbers when it comes to coordinates of something in 3D space. The solution is to render everything on a small canvas with size, like, 150x100, and then scale result to appropriate size afterwards. 
 
 The problem is, rendering accuracy will not be increased after just dumb image upscaling. That's why I calculate position of some point projected to a smaller canvas as a floating point number, then multiply canvas size, as well as 2D coordinates of projection to a scaling factor, and then pick closest integer representation of said 2D coordinate. This way accuracy will be increased with scaling factor growth almost infinitely. Very cool.
 
@@ -92,4 +94,4 @@ For more comments about what each function does see header file.
 
 ### License
 
-GPLv3+
+I don't think this code could be useful for anything except showing what primitive construction parts more complex rendering software usually consists of. But I already initialized this repo with something something GPL, so be it. GPLv3+.
